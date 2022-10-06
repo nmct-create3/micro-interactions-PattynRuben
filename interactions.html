@@ -18,6 +18,7 @@
 
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/screen.css">
+    <script src="script/app.js"></script>
 </head>
 
 <body>
@@ -32,11 +33,11 @@
                         <h5>
                             Floating labels
                         </h5>
-                        <p class="c-form-field">
-                            <label class="c-label" for="username">
+                        <p class="c-form-field-floating">
+                            <label class="c-label c-label-floating" for="username">
                                 Email
                             </label>
-                            <input class="c-input" type="email" name="username"
+                            <input class="c-input c-input-floating" type="email" name="username"
                                    id="username"
                                    required>
                         </p>
@@ -50,10 +51,11 @@
                                 Password
                             </label>
                             <span class="c-toggle-password-container">
-                                <input class="c-input" type="password"
+                                <input class="c-input js-password-toggle-input" type="password"
                                        name="password" id="password" required>
+                                
                                 <span class="c-toggle-password">
-                                    <input class="c-toggle-password__checkbox"
+                                    <input class="o-hide-accessible c-toggle-password__checkbox js-pasword-toggle-checkbox"
                                            type="checkbox" id="togglePassword">
                                     <label class="c-toggle-password__label"
                                            for="togglePassword">
