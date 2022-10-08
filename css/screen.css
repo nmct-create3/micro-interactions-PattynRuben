@@ -619,28 +619,17 @@ input::placeholder {
     Everything form related here
 */
 
-.c-form-field-floating{
-    position: relative;
-}
 
-.c-label-floating{
-    position: absolute;
-    top: 12px;
-    left: 8px;
-    padding: 4px 8px;
-    will-change: transform;
-    transform: translateY( 0 );
-    transition: transform 200ms ease-in-out;
-    box-shadow: 0 0 4px 4px rgba(255,255,255,0.8);
-    background: white;
-}
-.c-form-field:focus-within .c-label-floating {
-    transform: translateY( -24px );
+
+.c-form-field{
+    position:relative;
 }
 .c-form-field--option {
     display: flex;
     align-items: center;
 }
+
+
 
 /*
     Component: Input
@@ -676,15 +665,7 @@ input::placeholder {
     box-shadow: var(--global-input-focus-boxShadow);
 }
 
-.c-label__error-message.is-visible{
-    display: block;
-}
 
-.c-label__error-message{
-    font-weight: 600;
-    float: right;
-    display: none;
-}
 /*
 Input password with toggle checkbox on top of it needs
 more padding on the right to avoid overlap
@@ -772,6 +753,34 @@ more padding on the right to avoid overlap
 
 .c-label--option {
     padding-bottom: 0;
+}
+
+.c-label__error-message{
+    font-weight: 600;
+    float: right;
+    display: none;
+}
+
+.c-label__error-message.is-visible{
+    display: block;
+}
+
+.c-label--floating {
+    position: absolute;
+    top: 12px;
+    left: 8px;
+    padding: 4px 8px;
+    will-change: transform;
+    transform: translateY( 0 );
+    transition: transform 200ms ease-in-out;
+    box-shadow: 0 0 4px 4px rgba(255,255,255,0.8);
+    background: white;
+    z-index: 1;
+}
+
+.is-floating,
+.c-form-field:focus-within .c-label--floating {
+    transform: translateY(-24px)
 }
 
 /*
@@ -1028,6 +1037,18 @@ more padding on the right to avoid overlap
     fill: var(--global-color-neutral-x-light);
 }
 
+.c-like__symbol{
+    position: relative;
+    width: 24px;
+    fill: var(--global-color-neutral-x-light);
+    transform: scale(1);
+    transition: transform .5s cubic-bezier(0.175, 0.885, 0.32, 2.275);
+    will-change: transform;
+}
+.c-like__input:checked+.c-like__label .c-like__symbol{
+    transform: scale(1.1);
+    fill: #D80027;
+}
 /*
     Component: Password Toggle
     ---

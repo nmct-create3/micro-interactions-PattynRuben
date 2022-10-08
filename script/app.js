@@ -2,59 +2,117 @@ let email = {},
   password = {},
   signInButton;
 
-function addError(element){
+const isValidEmailAddress = function (emailAddress) {
+  // Basis manier om e-mailadres te checken.
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress);
+};
 
-}
+const isEmpty = function (fieldValue) {
+  return !fieldValue || !fieldValue.length;
+};
+
+const doubleCheckEmailAddress = function () {
+  if (isValidEmailAddress(email.input.value)) {
+    email.input.removeEventListener('input', doubleCheckEmailAddress);
+    removeErrors(email);
+  } else {
+    if (isEmpty(email.input.value)) {
+      email.errormessage.innerText = 'This field is required';
+    } else {
+      email.errorMessage.innerText = 'Invalid emailaddress';
+    }
+  }
+};
+
+const doubleCheckPassword = function () {
+  if (!isEmpty(password.input.value)) {
+    password.input.removeEventListener('input', doubleCheckPassword);
+    removeErrors(password);
+  } else {
+    password.errorMessage.innerText = 'This field is required';
+    addErrors(password);
+  }
+};
+const addErrors = function (formField) {
+  formField.field.classList.add('has-error');
+  formField.errorMessage.classList.add('is-visible');
+};
+const removeErrors = function (formField) {
+  formField.field.classList.remove('has-error');
+  formField.errorMessage.classList.remove('is-visible');
+};
+
+const getDOMElementen = function () {
+  email.label = document.querySelector('.js-email-label');
+  email.errorMessage = document.querySelector('.js-email-error-message');
+  email.input = document.querySelector('.js-email-input');
+  email.field = document.querySelector('.js-email-field');
+
+  password.label = document.querySelector('.js-password-label');
+  password.errorMessage = document.querySelector('.js-password-error-message');
+  password.input = document.querySelector('.js-password-input');
+  password.field = document.querySelector('.js-password-field');
+
+  signInButton = document.querySelector('.js-sign-in-button');
+};
 function enableListeners() {
   email.input.addEventListener('blur', function () {
-    if (!isEmpty(email.input.value)) {
-    } else {
-        console.log('email is empty');
-        email.field.classList.add('has-error');
-        email.errormessage.innerText = 'Dit veld is verplicht';
-        email.field.addEventListener("input", doubleCheckIFEmailIsEmpty);
-        if(!isValidEmailAddress(email.input.value)){
-            email.field.classList.add('has-error');
-            email.errormessage.innerText = 'Dit veld is verplicht';
-            email.field.addEventListener("input", doublecheckIfEmailIsValid);
-        }else{
-            email.field.classList.remove('has-error');
-            email.errormessage.innerText = '';
-        }
+    if (!isValidEmailAddress(email.input.value)) {
+      if (isEmpty(email.input.value)) {
+        email.errorMessage.innerText = 'This field is required';
+      } else {
+        email.errorMessage.innerText = 'Invalid emailaddress';
+      }
+      addErrors(email);
+      email.input.addEventListener('input', doubleCheckEmailAddress);
     }
   });
   password.input.addEventListener('blur', function () {
-    if(this.value.length < 2 || this.value.length <= 4){
-    
-    }else{
-        console.log('error, please fix');
-        password.input.addEventListener('input', doubleCheckPassword);
+    if (isEmpty(password.input.value)) {
+      password.errorMessage.innerText = 'This field is required';
+      addErrors(password);
+      password.input.addEventListener('input', doubleCheckPassword);
+    } else {
+      removeErrors(password);
     }
   });
-  signInButton.addEventListener('click', function () {
-    console.log('klik');
+  signInButton.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (isvalidEmailAddress(email.input.value) && !isEmpty(password.input.value)) {
+      removeErrors(email);
+      removeErrors(password);
+      console.info('form is good to go.');
+    } else {
+      if (!isValidEmailAddress(email.input.value)) {
+        addErrors(email);
+        email.input.addEventListener('input', doubleCheckEmailAddress);
+      }
+      if (isEmpty(password.input.value)) {
+        console.log('Looks empty...');
+        addErrors(password);
+        password.input.addEventListener('input', doubleCheckPassword);
+      }
+    }
   });
 }
 
-function getDOMElementen() {
-  email.field = document.querySelector('.js-email-field');
-  email.errormessage = document.querySelector('.js-email-error-message');
-  email.input = document.querySelector('.js-email-input');
-  if (email.field.classList.contains('has-error')) {
-    email.field.classList.remove('has-error');
-    email.errormessage.innerText = '';
+function handleFloatingLabel() {
+  let input = document.querySelector('.js-floating-input'),
+  label = document.querySelector('.js-floating-label');
+
+  if(!input || !label) {
+    throw new error('The floating label or the floating input classes could not be found.');
   }
-  password.field = document.querySelector('.js-password-field');
-  password.errormessage = document.querySelector('.js-password-error-message');
-  password.input = document.querySelector('.js-password-input');
-  if (password.field.classList.contains('has-error')) {
-    password.field.classList.remove('has-error');
-    password.errormessage.innerText = '';
-  }
-  signInButton = document.querySelector('.js-sign-in-button');
-  enableListeners();
+
+  input.addEventListener('blur',function(){
+    if(input.value){
+      label.classList.add('is-floating');
+    }else{
+      label.classList.remove('is-floating');
+    }
+  })
 }
-function handleFloatingLabel() {}
+
 
 function handlePasswordSwitcher() {
   const passwordOptions = ['password', 'text'];
@@ -65,45 +123,10 @@ function handlePasswordSwitcher() {
   });
 }
 
-const isValidEmailAddress = function (emailAddress) {
-  // Basis manier om e-mailadres te checken.
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress);
-};
-
-const isEmpty = function (fieldValue) {
-  return !fieldValue || !fieldValue.length;
-};
-
-const isValidPassword = function (password) {
-    if(password.length < 2){
-        return false;
-    }else{
-        return true;
-    }
-}
-const doubleCheckPassword =function(event){
-    if(this.value.length<2 || this.value.length<=4){
-        password.input.removeEventListener('input', doubleCheckPassword);
-    }
-}
-const doubleCheckIFEmailIsEmpty = function(event){
-    if(!isEmpty(email.input.value)){
-        email.field.classList.remove('has-error');
-        email.errormessage.innerText = '';
-        email.field.removeEventListener('input', doubleCheckIFEmailIsEmpty);
-    }
-}
-
-const doublecheckIfEmailIsValid = function(event){
-    if(isvalidEmailAddress(email.input.value)){
-        email.field.classList.remove('has-error');
-        email.errormessage.innerText = '';
-        email.field.removeEventListener('input', doublecheckIfEmailIsValid);
-    }
-}
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Script loaded!');
   handleFloatingLabel();
   //handlePasswordSwitcher();
-  getDOMElementen();
+  //getDOMElementen();
+  //enableListeners();
 });

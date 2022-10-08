@@ -33,11 +33,11 @@
                         <h5>
                             Floating labels
                         </h5>
-                        <p class="c-form-field-floating">
-                            <label class="c-label c-label-floating" for="username">
+                        <p class="c-form-field">
+                            <label class="c-label c-label--floating js-floating-label" for="username">
                                 Email
                             </label>
-                            <input class="c-input c-input-floating" type="email" name="username"
+                            <input class="c-input c-input--with-floating js-floating-input" type="email" name="username"
                                    id="username"
                                    required>
                         </p>
@@ -85,10 +85,11 @@
                         <h5>
                             Like this excercise!
                         </h5>
-                        <p>
-                            <input type="checkbox" />
-                            <label>
+                        <p class="c-like">
+                            <input class="o-hide-accessible c-like__input" type="checkbox" id="like" />
+                            <label class="c-label c-like__label" for="like">
                                 <svg
+                                    class="c-like__symbol"
                                      xmlns="http://www.w3.org/2000/svg"
                                      xmlns:xlink="http://www.w3.org/1999/xlink"
                                      version="1.1"
