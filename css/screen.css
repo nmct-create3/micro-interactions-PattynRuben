@@ -1049,6 +1049,137 @@ more padding on the right to avoid overlap
     transform: scale(1.1);
     fill: #D80027;
 }
+
+.c-tent{
+    --y:0;
+    --x:0;
+    --tent__icon-size:calc(var(--global-baseline)*10);
+    --tent-borderRadius: calc(var(--global-borderRadius)*2);
+    --tent-transition: .3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    --tent-transform-perspective: perspective(1000px) rotateY(calc(var(--y)*-10deg)) rotateX(calc(var(--x)*10deg));
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: transform var(--tent-transition);
+    transform: var(--tent-tranfsorm, var(--tent-transform-perspective));
+    transform-style: preserve-3d;
+}
+
+.c-tent::before,
+.c-tent::after{
+    content:"";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: opacity var(--tent-transition);
+    pointer-events: none;
+    border-radius: var(--tent-borderRadius);
+}
+
+.c-tent::before{
+    box-shadow: 0 6px 12px -2px rgba(0, 0, 0, .125), 0 3px 7px -3px rgba(0, 0, 0, .2);
+    opacity: var(--tent__before-opacity, 1);
+}
+
+.c-tent::after{
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, .25), 0 30px 60px -30px rgba(0, 0, 0, .3), 0 -18px 60px -10px rgba(0, 0, 0, .025);
+    opacity: var(--tent__after-opacity, 0);
+}
+
+.c-tent__body{
+    border-radius: var(--tent-borderRadius);
+    background-color: var(--tent-backgroundColor,white);
+    padding: var(--tent__body-whitespace,calc(var(--tent__icon-size )/1.25));
+    position: relative;
+    overflow: hidden;
+}
+
+.c-tent__icon-wrapper{
+    width:var(--tent__icon-size);
+    height:var(--tent__icon-size);
+    border-radius: 100%;
+    background-color: var(--tent__icon-backgroundColor,white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:absolute;
+    top:calc(var(--tent__icon-size)/-2);
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .07);
+    transition: transform var(--tent-transition);
+    transform: var(--tent__icon-wrapper-tranform,none);
+    transform-style: preserve-3d;
+}
+
+.c-tent__icon{
+    width: calc(var(--tent__icon-size)/1.75);
+    height: calc(var(--tent__icon-size)/1.75);
+}
+
+.c-tent__content{
+    color:var(--tent__content-color,var(--global-color-neutral));
+    transition:transform var(--tent-transition);
+    transform: var(--tent__content-transform, none);
+}
+
+.c-tent__content>*:last-child,
+.c-tent__content>*:last-child>*:last-child {
+    margin-bottom: 0;
+}
+
+.c-tent__title{
+    font-size: 19px;
+    font-weight: normal;
+    line-height: calc(var(--global-baseline)*3);
+    margin-bottom: var(--global-whitespace-xs);
+    color: var(--tent__title-color, var(--global-page-color));
+}
+
+.c-tent__action{
+    position: absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    text-align: center;
+    font-weight: 600;
+    padding:calc(var(--tent__icon-size)/5) var(--global-whitespace);
+    background-color: var(--tent__action-backgroundColor, var(--global-color-neutral-xxxx-light));
+    transform: var(--tent__action-opacity, translateY(calc(var(--tent__icon-size) / 2)));
+    transition: all var(--tent-transition);
+    opacity: var(--tent__action-opacity,0);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 14px;
+}
+
+.c-tent:hover{
+    --x:1;
+    --lift:.1rem;
+    --tent-transform:translateY(calc(var(--lift)*-1)) var(--tent-transform-perspective);
+    --tent__icon-wrapper-transform:translateZ(1.5rem) scale(.75);
+    --tent__content-tranform: translateY(calc(var(--tent__icon-size)/-6));
+    --tent__action-tranform: none;
+    --tent__action-opacity: 1;
+    --tent__before-opacity: 0;
+    --tent__after-opacity: 1;
+}
+
+.c-tent:active{
+    --tent-transform: perspective(1000px) rotateY(0) rotateX(0);
+}
+
+.c-icon__path--color-1{
+    fill: var(--icon-color-1, var(--global-color-alpha-x-transparent));
+}
+
+.c-icon__path--color-2{
+    fill: var(--icon-color-2, var(--global-color-alpha));
+}
 /*
     Component: Password Toggle
     ---
